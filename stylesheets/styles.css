@@ -34,27 +34,25 @@ vertical-align: top;
 }
 
 
-/*-----------------------------------------------------------*/
+
 /* Pacman will encounter walls and coins.                    */
 /* Pacman can't move through walls, but can eat coins.       */
-/*-----------------------------------------------------------*/
-
 /* Walls are blue with an off-blue border. */
 .wall {
-
+background-color: blue;
+border: 2px solid cornflowerblue;
 }
 
 /* Coins are made by rounding the corners and  */
 /* making them much smaller than 50px by 50px. */
 .coin {
-
+background-color: yellow;
+border-radius: 50%;
+transform: scale(0.3);
 }
 
-
-/*-----------------------------------------------------------*/
 /* We make pacman appear to face different directions by     */
 /* using different background images based on class name.    */
-/*-----------------------------------------------------------*/
 .pacman {
   /* Image urls are relative to the stylesheet.      */
   /* The '../images' means: "go to the parent folder */
