@@ -132,10 +132,11 @@ class TriviaGameShow {
            let clue = this.clues[clueId];
            ul.innerHTML += `<li><button data-clue-id=${clueId}>${clue.value}</button></li>`
         })
+        
         this.boardElement.appendChild(column);
    } 
 
-   handleClueClick(event) {
+      handleClueClick(event) {
       let clue = this.clues[event.target.dataset.clueId];
 
       //Mark this button as used
@@ -158,7 +159,47 @@ class TriviaGameShow {
       this.modalElement.classList.add("visible");
       this.inputElement.focus();
    }
-}    
+   
+   handleFormSubmit(event) {
+      event.preventDefault();
+      
+      let isCorrect = this.cleanseAnswer(this.inputElement.value) === 
+      this.cleanseAnswer(this.currentClue.answer);
+      if (isCorrect) {
+         this.updateScore(this.currentClue.value);
+   }
+   //Show answer
+   this.revealAnswer(isCorrect);
+} 
+
+//Standardize an answer string so we can compare and accept variations
+cleanseAnswer(input="") {
+   let friendlyAnswer = input.toLowerCase();
+   friendlyAnswer = friendlyAnswer.replace("<i>", "");
+   friendlyAnswer = friendlyAnswer.replace("</i>", "");
+   friendlyAnswer = friendlyAnswer.replace(/ /g, "");
+   friendlyAnswer = friendlyAnswer.replace(/"/g, "");
+   friendlyAnswer = friendlyAnswer.replace(/^a /, "");
+   friendlyAnswer = friendlyAnswer.replace(/^an /, "");      
+   return friendlyAnswer.trim();
+}
+
+revealAnswer(isCorrect) {
+      
+   //Show the individual success/fail case
+   this.successTextElement.style.display = isCorrect ? "block" : "none";
+   this.failTextElement.style.display = !isCorrect ? "block" : "none";
+   
+   //Show the whole result container
+   this.modalElement.classList.add("showing-result");
+   
+   //Disappear after a short bit
+   setTimeout(() => {
+      this.modalElement.classList.remove("visible");
+   }, 3000);
+}
+
+}
         
 
 const game = new TriviaGameShow( document.querySelector(".app"), {});
